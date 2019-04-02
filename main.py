@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import argparse
-import Images.DataGetter as dg
 import time
 import OutputJson as jout
 from sklearn.metrics import accuracy_score
