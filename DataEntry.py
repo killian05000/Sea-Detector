@@ -176,16 +176,16 @@ def dataSobelPredict (dirpath):
    # print(len(seaFileList))
     for i in range(0,len(fileList)-1):
         img_path = ""+ dirpath +"/"+ fileList[i]
-        img = cv.imread(img_path,0)
-        img = cv.resize(img, DataShape)
-        sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
-        sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
-        sobel = np.concatenate((sobelx,sobely),axis = 1)
+        img = cv2.imread(img_path,0)
+        img = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
+        sobely = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+        sobelx = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+        sobel = numpy.concatenate((sobelx,sobely),axis = 1)
         #print(len(sobel.flatten()))
         data.append(sobel.flatten())
         fileName.append(img_path)
 
-    data=np.asarray(data)
+    data=numpy.asarray(data)
     return data,fileName
 
 ########################################################
@@ -196,10 +196,12 @@ def dataImageVecPredict (dirpath):
     fileList=listdir(dirpath)
     for i in range(0,len(fileList)-1):
         img_path = ""+ dirpath +"/"+ fileList[i]
-        img = cv.imread(img_path,0)
+        img = cv2.imread(img_path,0)
         resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
         data.append(resized.flatten())
         fileName.append(img_path)
 
-    data=np.asarray(data)
+    data=numpy.asarray(data)
+    print("dans ImagevecPredict taille data :",len(data))
+    print(data.shape)
     return data,fileName
