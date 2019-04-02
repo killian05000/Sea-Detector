@@ -2,6 +2,7 @@ from os import listdir
 import cv2
 import numpy
 from PIL import Image
+import Images.ImageModifier as im
 
 ########################################################
 #######################TRAIN############################
@@ -90,14 +91,16 @@ def getFastDataSobel(dirPath):
         img_path = ""+ seaPath + seaFileList[iSea]
         img = cv2.imread(img_path,1)
         resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
-        data.append(resized.flatten())
+        sobel = (im.shapeDetectionCV(resized,30))
+        data.append(sobel.flatten())
         target.append(1)
 
     for iOther in range(0,len(otherFileList)-1):
         img_path = ""+otherPath+otherFileList[iOther]
         img = cv2.imread(img_path,1)
         resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
-        data.append(resized.flatten())
+        sobel = (im.shapeDetectionCV(resized,30))
+        data.append(sobel.flatten())
         target.append(-1)
 
     data=numpy.asarray(data)
