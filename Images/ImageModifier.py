@@ -97,11 +97,10 @@ def shapeDetectionCV(img, treshold):
             p2 = img[j][i-1]
             p3 = img[j+1][i]
             p4 = img[j][i+1]
-            pn1 = (p1[0]+p1[1]+p1[2])/3
-            pn2 = (p2[0]+p2[1]+p2[2])/3
-            pn3 = (p3[0]+p3[1]+p3[2])/3
-            pn4 = (p4[0]+p4[1]+p4[2])/3
-            n = sqrt((pn1-pn3)*(pn1-pn3) + (pn2-pn4)*(pn2-pn4))
+            nr = sqrt((p1[0]-p3[0])*(p1[0]-p3[0]) + (p2[0]-p4[0])*(p2[0]-p4[0]))
+            ng = sqrt((p1[1]-p3[1])*(p1[1]-p3[1]) + (p2[1]-p4[1])*(p2[1]-p4[1]))
+            nb = sqrt((p1[2]-p3[2])*(p1[2]-p3[2]) + (p2[2]-p4[2])*(p2[2]-p4[2]))
+            n = (nr+ng+nb)/3
             if n < treshold:
                 p = (255,255,255)
             else:
