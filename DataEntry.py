@@ -4,6 +4,8 @@ import numpy
 from PIL import Image
 
 ########################################################
+#######################TRAIN############################
+########################################################
 
 def getDataImageVec(dirPath):
     data=[]
@@ -51,8 +53,8 @@ def getDataSobel(dirPath):
         img_path = ""+ seaPath + seaFileList[iSea]
         img = cv2.imread(img_path,1)
         img = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
-        sobely = cv2.Sobel(img,cv2.cv2_64F,1,0,ksize=5)
-        sobelx = cv2.Sobel(img,cv2.cv2_64F,1,0,ksize=5)
+        sobely = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+        sobelx = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
         sobel = numpy.concatenate((sobelx,sobely),axis = 1)
         d = numpy.concatenate((sobel,img),axis = 1)
         data.append(d.flatten())
@@ -62,8 +64,8 @@ def getDataSobel(dirPath):
         img_path = ""+otherPath+otherFileList[iOther]
         img = cv2.imread(img_path,1)
         img = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
-        sobely = cv2.Sobel(img,cv2.cv2_64F,1,0,ksize=5)
-        sobelx = cv2.Sobel(img,cv2.cv2_64F,1,0,ksize=5)
+        sobely = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+        sobelx = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
         d = numpy.concatenate((sobel,img),axis = 1)
         data.append(d.flatten())
         target.append(-1)
@@ -144,3 +146,57 @@ def VectorHistogrammeC(image_path):
     return numpy.array(features).flatten()/(x*y)
 
 ########################################################
+######################PREDICT###########################
+########################################################
+
+def dataHistogrammePredict(dirPath):
+
+    data=[]
+    fileList=[]
+    fileListDir=listdir(dirPath)
+
+    for i in range(0,len(fileListDir)-1):
+        img_path = ""+ dirPath +"/"+ fileListDir[i]
+        data.append(VectorHistogrammeC(img_path))
+        fileList.append(fileListDir[i])
+
+    data=numpy.asarray(data)
+    fileList=numpy.asarray(fileList)
+    return data,fileList
+
+########################################################
+
+def dataSobelPredict (dirpath):
+    data=[]
+    fileName=[]
+    fileList=listdir(dirpath)
+   # print(len(seaFileList))
+    for i in range(0,len(fileList)-1):
+        img_path = ""+ dirpath +"/"+ fileList[i]
+        img = cv.imread(img_path,0)
+        img = cv.resize(img, DataShape)
+        sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobel = np.concatenate((sobelx,sobely),axis = 1)
+        #print(len(sobel.flatten()))
+        data.append(sobel.flatten())
+        fileName.append(img_path)
+
+    data=np.asarray(data)
+    return data,fileName
+
+########################################################
+
+def dataImageVecPredict (dirpath):
+    data=[]
+    fileName=[]
+    fileList=listdir(dirpath)
+    for i in range(0,len(fileList)-1):
+        img_path = ""+ dirpath +"/"+ fileList[i]
+        img = cv.imread(img_path,0)
+        resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
+        data.append(resized.flatten())
+        fileName.append(img_path)
+
+    data=np.asarray(data)
+    return data,fileName
