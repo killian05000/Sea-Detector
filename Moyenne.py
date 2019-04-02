@@ -1,4 +1,5 @@
 def Votes(Vector) :
+
     result=[0]*len(Vector[0])
     for i in range(len(Vector)):
         #print(Vector[i])
