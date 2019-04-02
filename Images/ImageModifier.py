@@ -3,6 +3,7 @@ import os
 from PIL import Image
 from math import sqrt
 import time
+import cv2 as cv
 
 # @param objet Image
 # @return objet Image
@@ -35,7 +36,7 @@ def mirror(img):
 def createRotatedSamples(img_path, nb, folder):
     img = Image.open(img_path)
     os.makedirs(folder, exist_ok=True)
-    rotateMargin = 5
+    rotateMargin = 60
     nbrotates= rotateMargin/nb
     k=0
     r=0-rotateMargin/2
@@ -45,7 +46,7 @@ def createRotatedSamples(img_path, nb, folder):
         name = "generated"+str(r)+".jpg"
         imgF.save(folder+'/'+name)
         k=k+1
-        time.sleep(1)        
+        time.sleep(1)
 
 # @param chemin d'une Image
 # @return objet Image
@@ -66,9 +67,10 @@ def blackAndWhite(img_path):
 # @return objet Image
 # Prend en argument une Image et un seuil, puis met en noir les pixels ayant des pixels voisin de couleur différentes
 # en fonction du seuil donné
-def shapeDetection(img, treshold):
+def shapeDetection(img_path, treshold):
+    img = Image.open(img_path)
     imgS = Image.new(img.mode, img.size)
-    column, line = imgN.size
+    column, line = imgS.size
     for i in range(1,line-1):
         for j in range(1,column-1):
             p1 = img.getpixel((j-1,i))
@@ -82,12 +84,66 @@ def shapeDetection(img, treshold):
                 p = (0,0,0)
             imgS.putpixel((j-1,i-1),p)
     return imgS;
-    
+
+##############################
+
+def shapeDetectionCV(img, treshold):
+    column = img.shape[0]
+    line = img.shape[1]
+    #print(img.shape)
+    for i in range(1,line-1):
+        for j in range(1,column-1):
+            p1 = img[j-1][i]
+            p2 = img[j][i-1]
+            p3 = img[j+1][i]
+            p4 = img[j][i+1]
+            pn1 = (p1[0]+p1[1]+p1[2])/3
+            pn2 = (p2[0]+p2[1]+p2[2])/3
+            pn3 = (p3[0]+p3[1]+p3[2])/3
+            pn4 = (p4[0]+p4[1]+p4[2])/3
+            n = sqrt((pn1-pn3)*(pn1-pn3) + (pn2-pn4)*(pn2-pn4))
+            if n < treshold:
+                p = (255,255,255)
+            else:
+                p = (0,0,0)
+            img[j-1][i-1] = p[0]
+    return img;
+
+#flatten
+def flatten(img):
+    column, line = img.size
+    Vec=[]
+    for i in range(line):
+        for j in range(column):
+            pixel = img.getpixel((j,i))
+            #print(pixel[0])
+            Vec.append(pixel[0])
+            Vec.append(pixel[1])
+            Vec.append(pixel[2])
+    return Vec
+
+##########################
+
+def flattenCV(img):
+    column, line = img.size
+    Vec=[]
+    for i in range(line):
+        for j in range(column):
+            pixel = img.getpixel((j,i))
+            #print(pixel[0])
+            Vec.append(pixel[0])
+            Vec.append(pixel[1])
+            Vec.append(pixel[2])
+    return Vec
 ######################To_Execute######################
+'''
+DataShape = (200,200)
+img = Image.open("../Data/Mer/aaaaa.jpeg")
+img2 = img.resize(DataShape)
+img2.show()
 
 #Ouverture du fichier image
-    """
-ImageFile = '../Data/Mer/aaaaa.jpeg'
+ImageFile = '../Data/Mer/xlou.jpeg'
 try:
   img = Image.open(ImageFile)
 except IOError:
@@ -98,26 +154,26 @@ except IOError:
 #img.show()
 
 #Negatif de l'Image
-imgN = negative(img)
+#imgN = negative(img)
 #imgN.show()
 
 #Miroir de l'Image
-imgM = mirror(img)
+#imgM = mirror(img)
 #imgM.show()
 
 #Noir et blanc de l'image
-imgBW = blackAndWhite(ImageFile)
+#imgBW = blackAndWhite(ImageFile)
 #imgBW.show()
 
 #Detection de contours de l'image
-imgT = shapeDetection(imgBW, 30)
+#imgT = shapeDetection(ImageFile, 30)
 #imgT.show()
+#print(flatten(imgT))
 
 
 #createRotatedSamples(ImageFile,10, "output")
 
 #Fermeture du fichier image
 img.close()
-
+'''
 ######################To_Execute######################
-"""
