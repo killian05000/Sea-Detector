@@ -12,7 +12,10 @@ folder = 'Models'
 
 def load_Model(f,data):
     loadeded_model=pickle.load(open(folder+'/'+f,'rb'))
+    print("dans load model taille data :",len(data))
+    print(data.shape)
     result=loadeded_model.predict(data)
+    print(result.shape)
     return result
 
 def save_Model(filename,model):
