@@ -11,6 +11,8 @@ from sklearn.metrics import accuracy_score
 import DataEntry
 import Algorithm
 import Moyenne
+import Model
+import OutputJson as Json
 
 ap=argparse.ArgumentParser()
 ap.add_argument("-f","--fit",required= False, help="Path to Data Folder")
@@ -190,31 +192,45 @@ if(pathTrain is not None):
 
 if(pathPredict is not None):
     print("--Predict start--")
-    dataImageVec,fileNames = DataEntry.dataImagevecPredict(pathPredict)
-    resultBayesImageVec=model.load_Model('Bayes_ImageVec.sav',dataImageVec)
-    resultAdaImageVec=model.load_Model('AdaBoost_ImageVec.sav',dataImageVec)
-    resultSvmImageVec=model.load_Model('Svm_ImageVec.sav',dataImageVec)
 
     dataHisto,fileNames = DataEntry.dataHistogrammePredict(pathPredict)
-    resultBayesHisto=model.load_Model('Bayes_Histo.sav', dataHisto)
-    resultAdaHisto=model.load_Model('AdaBoost_Histo', dataHisto)
-    resultSvmHisto=model.load_Model('Svm_Histo', dataHisto)
+    print(dataHisto.shape)
+    resultBayesHisto=Model.load_Model('Bayes_Histo.sav', dataHisto)
+    resultAdaHisto=Model.load_Model('AdaBoost_Histo.sav', dataHisto)
+    resultSvmHisto=Model.load_Model('Svm_Histo.sav', dataHisto)
+    print("load Histo done")
+    '''
+
+    dataImageVec,fileNames = DataEntry.dataImageVecPredict(pathPredict)
+    print(dataImageVec.shape)
+    resultBayesImageVec=Model.load_Model('Bayes_ImageVec.sav',dataImageVec)
+    resultAdaImageVec=Model.load_Model('AdaBoost_ImageVec.sav',dataImageVec)
+    resultSvmImageVec=Model.load_Model('Svm_ImageVec.sav',dataImageVec)
+    print("load Image done")
+
 
     dataSobel,fileNames = DataEntry.dataSobelPredict(pathPredict)
-    resultBayesSobel=model.load_Model('Bayes_Sobel.sav',dataSobel)
-    resultAdaSobel=model.load_Model('AdaBoost_Sobel.sav',dataSobel)
-    resultSvmSobel=model.load_Model('Svm_Sobel.sav',dataSobel)
+    resultBayesSobel=Model.load_Model('Bayes_Sobel.sav',dataSobel)
+    resultAdaSobel=Model.load_Model('AdaBoost_Sobel.sav',dataSobel)
+    resultSvmSobel=Model.load_Model('Svm_Sobel.sav',dataSobel)
+    print("load sobel done")
+    '''
 
 
 
+
+
+    '''
     vector=[resultBayesImageVec,resultAdaImageVec, resultSvmImageVec,
             resultBayesHisto, resultAdaHisto, resultSvmHisto,
             resultBayesSobel, resultAdaSobel, resultSvmSobel]
+            '''
 
+    vector=[resultBayesHisto, resultAdaHisto, resultSvmHisto]
     voteResult=Moyenne.Votes(vector)
     for i in range(len(vector)):
         print(vector[i],'\n')
 
-    print(result)
+    print(voteResult)
 
-    JsonOut.outPutJson(fileList, pathPredict, voteResult)
+    Json.outPutJson(fileNames, pathPredict, voteResult)
