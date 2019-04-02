@@ -29,7 +29,9 @@ class Algos:
         #predict
         predict = clf.predict(self.data_test)
 
-        #return predictions
+
+        #print("BAYES : ",accuracy_score(self.target_test, predict))
+        return predict
         return (accuracy_score(self.target_test,predict))
 
     def Ada_boost(self, modelName):
@@ -40,7 +42,9 @@ class Algos:
         Model.save_Model(modelName,clf)
         predict = clf.predict(self.data_test)
 
-        return accuracy_score(self.target_test, predict)
+        #print("ADA : ",accuracy_score(self.target_test, predict))
+        return predict
+        #return accuracy_score(self.target_test, predict)
 
     def svmImgvec(self, modelName):
         clf = svm.SVC(C=1, cache_size=200, class_weight=None, coef0=0.0,
@@ -53,5 +57,7 @@ class Algos:
         Model.save_Model(modelName,clf)
         predict = clf.predict(self.data_test)
 
-        #return target_predict
+
+        #print("SVM : ",accuracy_score(self.target_test, predict))
+        return predict
         return accuracy_score(self.target_test, predict)
