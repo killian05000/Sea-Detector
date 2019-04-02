@@ -48,7 +48,7 @@ if(pathTrain is not None):
     timeStart=time.clock()
     nbIter=0
 
-    for i in range(10):
+    for i in range(20):
         print("-----Start",i,"-----")
         time1=time.clock()
 
@@ -72,18 +72,6 @@ if(pathTrain is not None):
 
 
 
-        ########### Algos lancé sur un histogramme de couleur
-        listeAlgo.setDataTarget(data_H, target_H)
-        tmp_bayes_histo = listeAlgo.Bayes('Bayes_Histo.sav')
-        tmp_ada_histo = listeAlgo.Ada_boost('AdaBoost_Histo.sav')
-        tmp_svm_histo = listeAlgo.svmImgvec('Svm_Histo.sav')
-
-        tmp_accuracy_bayes_h = accuracy_score(listeAlgo.target_test, tmp_bayes_histo)
-        #print(tmp_accuracy_bayes_h)
-        tmp_accuracy_ada_h = accuracy_score(listeAlgo.target_test, tmp_ada_histo)
-        #print(tmp_accuracy_ada_h)
-        tmp_accuracy_svm_h = accuracy_score(listeAlgo.target_test, tmp_svm_histo)
-        #print(tmp_accuracy_svm_h)
 
 
 
@@ -101,8 +89,25 @@ if(pathTrain is not None):
         #print(tmp_accuracy_svm_s)
 
 
+        ########### Algos lancé sur un histogramme de couleur
+        listeAlgo.setDataTarget(data_H, target_H)
+        tmp_bayes_histo = listeAlgo.Bayes('Bayes_Histo.sav')
+        tmp_ada_histo = listeAlgo.Ada_boost('AdaBoost_Histo.sav')
+        tmp_svm_histo = listeAlgo.svmImgvec('Svm_Histo.sav')
+
+        tmp_accuracy_bayes_h = accuracy_score(listeAlgo.target_test, tmp_bayes_histo)
+        #print(tmp_accuracy_bayes_h)
+        tmp_accuracy_ada_h = accuracy_score(listeAlgo.target_test, tmp_ada_histo)
+        #print(tmp_accuracy_ada_h)
+        tmp_accuracy_svm_h = accuracy_score(listeAlgo.target_test, tmp_svm_histo)
+        #print(tmp_accuracy_svm_h)
+
+        vectorH=[tmp_bayes_histo*tmp_accuracy_bayes_h,
+               tmp_ada_histo*tmp_accuracy_ada_h,
+               tmp_svm_histo*tmp_accuracy_svm_h]
 
 
+        '''
         vector = [tmp_bayes_image*(tmp_accuracy_bayes_i),
                   tmp_ada_image*(tmp_accuracy_ada_i),
                   tmp_svm_image*(tmp_accuracy_svm_i),
@@ -114,20 +119,10 @@ if(pathTrain is not None):
                   tmp_svm_sobel*(tmp_accuracy_svm_s),]
         '''
 
-        vector = [1*tmp_bayes_image,
-                  1*tmp_ada_image,
-                  1*tmp_svm_image,
-                  1*tmp_bayes_histo,
-                  1*tmp_ada_histo,
-                  1*tmp_svm_histo,
-                  1*tmp_bayes_sobel,
-                  1*tmp_ada_sobel,
-                  1*tmp_svm_sobel,]
-        '''
         print('\n')
         #for i in range(len(vector)):
             #print(vector[i],'\n')
-        voteResult=Moyenne.Votes(vector)
+        voteResult=Moyenne.Votes(vectorH)
         accuracy+=accuracy_score(listeAlgo.target_test, voteResult)
 
         print("Bayes Image : ",tmp_accuracy_bayes_i)
