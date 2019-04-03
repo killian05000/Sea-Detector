@@ -44,15 +44,16 @@ tmp_svm_sobel = 0
 accuracy = 0
 
 if(pathTrain is not None):
-    print("Demarrage")
+    print("--Learning start--")
     timeStart=time.clock()
     nbIter=0
 
-    for i in range(20):
-        print("-----Start",i,"-----")
+    for i in range(1):
+        #print("-----Start",i,"-----")
         time1=time.clock()
 
         listeAlgo = Algorithm.Algos()
+        print("Data transformation start")
         data_I, target_I = DataEntry.getDataImageVec(pathTrain)
         data_S, target_S = DataEntry.getFastDataSobel(pathTrain)
         data_H, target_H = DataEntry.getDataHistogramme(pathTrain)
@@ -60,34 +61,41 @@ if(pathTrain is not None):
 
         ########### Algos lancé sur un vecteur d'image
         listeAlgo.setDataTarget(data_I, target_I)
+        print("Bayes imgvec start")
         tmp_bayes_image = listeAlgo.Bayes('Bayes_ImageVec.sav')
+        print("Ada imgvec start")
         tmp_ada_image = listeAlgo.Ada_boost('AdaBoost_ImageVec.sav')
+        print("Svm imgvec start")
         tmp_svm_image = listeAlgo.svmImgvec('Svm_ImageVec.sav')
         tmp_accuracy_bayes_i = accuracy_score(listeAlgo.target_test, tmp_bayes_image)
         tmp_accuracy_ada_i = accuracy_score(listeAlgo.target_test,tmp_ada_image)
         tmp_accuracy_svm_i = accuracy_score(listeAlgo.target_test, tmp_svm_image)
 
-
         ########### Algos lancé sur un vecteur de contour d'image
         listeAlgo.setDataTarget(data_S, target_S)
+        print("Bayes sobel start")
         tmp_bayes_sobel = listeAlgo.Bayes('Bayes_Sobel.sav')
+        print("Ada sobel start")
         tmp_ada_sobel = listeAlgo.Ada_boost('AdaBoost_Sobel.sav')
+        print("Svm sobel start")
         tmp_svm_sobel = listeAlgo.svmImgvec('Svm_Sobel.sav')
         tmp_accuracy_bayes_s = accuracy_score(listeAlgo.target_test, tmp_bayes_sobel)
         tmp_accuracy_ada_s = accuracy_score(listeAlgo.target_test, tmp_ada_sobel)
         tmp_accuracy_svm_s = accuracy_score(listeAlgo.target_test, tmp_svm_sobel)
 
-
         ########### Algos lancé sur un histogramme de couleur
         listeAlgo.setDataTarget(data_H, target_H)
+        print("Bayes histo start")
         tmp_bayes_histo = listeAlgo.Bayes('Bayes_Histo.sav')
+        print("Ada histo start")
         tmp_ada_histo = listeAlgo.Ada_boost('AdaBoost_Histo.sav')
+        print("Svm histo start")
         tmp_svm_histo = listeAlgo.svmImgvec('Svm_Histo.sav')
         tmp_accuracy_bayes_h = accuracy_score(listeAlgo.target_test, tmp_bayes_histo)
         tmp_accuracy_ada_h = accuracy_score(listeAlgo.target_test, tmp_ada_histo)
         tmp_accuracy_svm_h = accuracy_score(listeAlgo.target_test, tmp_svm_histo)
 
-
+        '''
         print("Bayes Image : ",tmp_accuracy_bayes_i)
         print("Ada Image :",tmp_accuracy_ada_i)
         print("Svm Image :",tmp_accuracy_svm_i)
@@ -97,6 +105,7 @@ if(pathTrain is not None):
         print("Bayes Sobel :",tmp_accuracy_bayes_s)
         print("Ada Sobel :",tmp_accuracy_ada_s)
         print("Svm Sobel :",tmp_accuracy_svm_s)
+        '''
 
         accuracy_bayes_Img += tmp_accuracy_bayes_i
         accuracy_ada_Img += tmp_accuracy_ada_i
@@ -107,7 +116,7 @@ if(pathTrain is not None):
         accuracy_bayes_Sobel += tmp_accuracy_bayes_s
         accuracy_ada_Sobel += tmp_accuracy_ada_s
         accuracy_svm_Sobel += tmp_accuracy_svm_s
-
+        '''
         time2=time.clock()
         print("Execution Time ",i," : ",round((time2-time1),4),'sec\n')
         nbIter+=1
@@ -122,7 +131,7 @@ if(pathTrain is not None):
     print("Bayes Sobel = ", accuracy_bayes_Sobel/nbIter)
     print("AdaBoost Sobel = ", accuracy_svm_Sobel/nbIter)
     print("Svm Sobel = ", accuracy_svm_Sobel/nbIter)
-
+    '''
     timeEnd=time.clock()
     print("Final Execution time : ",round((timeEnd-timeStart),4),'sec\n')
 

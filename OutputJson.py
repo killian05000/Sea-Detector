@@ -4,7 +4,6 @@ import json
 
 def outPutJson(imgPathList, dirPath, result):
     d = {}
-
     for i in range(len(imgPathList)):
         imgPathList[i] = imgPathList[i].replace(dirPath+'/', '')
 
