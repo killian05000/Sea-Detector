@@ -20,14 +20,14 @@ def getDataImageVec(dirPath):
 
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
-    for iSea in range(0,len(seaFileList)-1):
+    for iSea in range(0,len(seaFileList)):
         img_path = ""+ seaPath + seaFileList[iSea]
         img = cv2.imread(img_path,1)
         resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
         data.append(resized.flatten())
         target.append(1)
 
-    for iOther in range(0,len(otherFileList)-1):
+    for iOther in range(0,len(otherFileList)):
         img_path = ""+otherPath+otherFileList[iOther]
         img = cv2.imread(img_path,1)
         #print("size before:",len(img.flatten()))
@@ -53,7 +53,7 @@ def getFastDataSobel(dirPath):
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
 
-    for iSea in range(0,len(seaFileList)-1):
+    for iSea in range(0,len(seaFileList)):
         img_path = ""+ seaPath + seaFileList[iSea]
         img = cv2.imread(img_path,1)
         resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
@@ -61,7 +61,7 @@ def getFastDataSobel(dirPath):
         data.append(sobel.flatten())
         target.append(1)
 
-    for iOther in range(0,len(otherFileList)-1):
+    for iOther in range(0,len(otherFileList)):
         img_path = ""+otherPath+otherFileList[iOther]
         img = cv2.imread(img_path,1)
         resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
@@ -107,12 +107,12 @@ def getDataHistogramme(dirPath):
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
 
-    for iSea in range(0,len(seaFileList)-1):
+    for iSea in range(0,len(seaFileList)):
         img_path = ""+ seaPath + seaFileList[iSea]
         data.append(VectorHistogrammeC(img_path))
         target.append(1)
 
-    for iOther in range(0,len(otherFileList)-1):
+    for iOther in range(0,len(otherFileList)):
         img_path = ""+otherPath+otherFileList[iOther]
         data.append(VectorHistogrammeC(img_path))
         target.append(-1)
@@ -145,7 +145,7 @@ def dataHistogrammePredict(dirPath):
     fileList=[]
     fileListDir=listdir(dirPath)
 
-    for i in range(0,len(fileListDir)-1):
+    for i in range(0,len(fileListDir)):
         img_path = ""+ dirPath +"/"+ fileListDir[i]
         data.append(VectorHistogrammeC(img_path))
         fileList.append(fileListDir[i])
@@ -161,7 +161,7 @@ def dataSobelPredict (dirpath):
     fileName=[]
     fileList=listdir(dirpath)
 
-    for i in range(0,len(fileList)-1):
+    for i in range(0,len(fileList)):
         img_path = ""+ dirpath +"/"+ fileList[i]
         img = cv2.imread(img_path,1)
         resized = cv2.resize(img, (126,90), interpolation = cv2.INTER_CUBIC)
@@ -179,7 +179,7 @@ def dataImageVecPredict (dirpath):
     data=[]
     fileName=[]
     fileList=listdir(dirpath)
-    for i in range(0,len(fileList)-1):
+    for i in range(0,len(fileList)):
         img_path = ""+ dirpath +"/"+ fileList[i]
         img = cv2.imread(img_path,1)
         #print("size before:",len(img.flatten()))
@@ -191,19 +191,3 @@ def dataImageVecPredict (dirpath):
     data=numpy.asarray(data)
     fileList=numpy.asarray(fileList)
     return data,fileName
-
-
-def dataHistogrammePredict(dirPath):
-
-    data=[]
-    fileList=[]
-    fileListDir=listdir(dirPath)
-
-    for i in range(0,len(fileListDir)-1):
-        img_path = ""+ dirPath +"/"+ fileListDir[i]
-        data.append(VectorHistogrammeC(img_path))
-        fileList.append(fileListDir[i])
-
-    data=numpy.asarray(data)
-    fileList=numpy.asarray(fileList)
-    return data,fileList
