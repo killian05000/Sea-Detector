@@ -16,12 +16,13 @@ REQUIREMENTS
 	To run the project you must previously install
   	some libraries and dependencies. You can download
   	those ones by using the following command line
-	
+
     		$ pip3 install -r requirements.txt
 
 --------------------------------
 RUN
 --------------------------------
-	To run the project, use the following command line 	
+	To run the project, use the following command line 
+	
 		$ python3 main.py -f Data
 		$ python3 main.py -p DataTest
