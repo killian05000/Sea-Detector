@@ -32,3 +32,8 @@ RUN
 	
 		$ python3 main.py -f Data
 		$ python3 main.py -p DataTest
+
+--------------------------------
+COPYRIGHTS
+--------------------------------
+	© Paillocher Sophie, Timothée Piau, Wolfger Killian, 2019, all rights reserved.
