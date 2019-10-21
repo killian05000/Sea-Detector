@@ -11,7 +11,7 @@
 --------------------------------
  PROJECT
 --------------------------------
-	2019 University project, Sead detector.
+	2019 University project, Sea detector.
 	Machine learning project - Recognize if 
   	a picture contains a sea or not (group project)
   
