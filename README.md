@@ -22,7 +22,6 @@ REQUIREMENTS
 --------------------------------
 RUN
 --------------------------------
-	To run the project, use the following command line 
-	
+	To run the project, use the following command line 	
 		$ python3 main.py -f Data
     		$ python3 main.py -p DataTest
