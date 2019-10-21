@@ -15,7 +15,7 @@ REQUIREMENTS
 --------------------------------
 	To run the project you must previously install
 	some libraries and dependencies. You can download
-	those ones by using the following command line
+	those ones by using the requirements file
 
 		$ pip3 install -r requirements.txt
 
